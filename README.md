@@ -63,9 +63,14 @@ If you need to specify conditions for the update, pass them as Arel queries:
 MyRecord.upsert({id: 1, wisdom: 3}, where: [MyRecord.arel_table[:updated_at].lt(1.day.ago)])
 ```
 
-Upsert will perform validation on the object, and skip the upsert if it is not valid. To skip validation, pass `validate: false`:
+Upsert will perform validation on the object, and return false if it is not valid. To skip validation, pass `validate: false`:
 ```
 MyRecord.upsert({id: 1, wisdom: 3}, validate: false)
+```
+
+If you want validations to raise `ActiveRecord::RecordInvalid`, use `upsert!`:
+```
+MyRecord.upsert!(id: 1, wisdom: 3)
 ```
 
 It's possible to specify which columns should be used for the conflict clause. **These must comprise a unique index in Postgres.**
