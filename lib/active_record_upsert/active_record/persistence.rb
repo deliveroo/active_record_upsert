@@ -8,11 +8,11 @@ module ActiveRecordUpsert
         validate == false || perform_validations || raise_validation_error
         values = run_callbacks(:save) {
           run_callbacks(:create) {
-            attribute_names ||= changed
-            attribute_names = attribute_names.map(&:to_s) +
+            attributes ||= changed
+            attributes = attributes.map(&:to_s) +
               timestamp_attributes_for_create_in_model +
               timestamp_attributes_for_update_in_model
-            _upsert_record(attribute_names.uniq)
+            _upsert_record(attributes.uniq, where)
           }
         }
         assign_attributes(values.first.to_h)
