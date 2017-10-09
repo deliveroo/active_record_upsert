@@ -26,9 +26,9 @@ module ActiveRecordUpsert
       end
 
 
-      def _upsert_record(attribute_names = changed, wheres = [])
-        attributes_values = arel_attributes_with_values_for_create(attribute_names)
-        values = self.class.unscoped.upsert(attributes_values, wheres)
+      def _upsert_record(upsert_attribute_names = changed, wheres = [])
+        existing_attributes = arel_attributes_with_values_for_create(self.attributes.keys)
+        values = self.class.unscoped.upsert(existing_attributes, upsert_attribute_names, wheres)
         @new_record = false
         values
       end
