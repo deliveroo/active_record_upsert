@@ -13,6 +13,7 @@ module ActiveRecordUpsert
 
         on_conflict_do_update = arel_table.create_on_conflict_do_update
         on_conflict_do_update.target = arel_table[upsert_keys.join(',')]
+        on_conflict_do_update.target_condition = self.klass.upsert_options[:where]
         on_conflict_do_update.wheres = wheres
         on_conflict_do_update.set(vals_for_upsert)
 
