@@ -83,13 +83,13 @@ module ActiveRecord
         before { Account.create(name: 'somename', active: true) }
 
         context 'when the record matches the partial index' do
-          it 'raises an error' do
+          it 'does not create a new record' do
             expect{ Account.upsert!(name: 'somename', active: true) }.not_to change{ Account.count }.from(1)
           end
         end
 
         context 'when the record does meet the where clause' do
-          it 'raises an error' do
+          it 'creates a new record' do
             expect{ Account.upsert!(name: 'somename', active: false) }.to change{ Account.count }.from(1).to(2)
           end
         end
